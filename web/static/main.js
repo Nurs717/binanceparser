@@ -1,4 +1,3 @@
-let subscribers = {};
 const websocket = new WebSocket("ws://localhost:8080/ws");
 
 websocket.onopen = function(event) {
@@ -12,6 +11,7 @@ websocket.onerror = function(error) {
 
 websocket.onmessage = function(event) {
     subscribers = JSON.parse(event.data);
-    console.log(subscribers);
-    document.getElementById('asks').textContent = subscribers
+    // console.log(subscribers);
+    document.getElementById('asks').innerHTML = subscribers.SumAsks
+    document.getElementById('bids').innerHTML = subscribers.SumBids
 };
