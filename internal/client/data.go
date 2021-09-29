@@ -1,6 +1,7 @@
 package client
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 
@@ -19,6 +20,7 @@ type Sums struct {
 	SumBids float64
 }
 
+// creates map of connection with channel
 var Conns = make(map[*websocket.Conn]chan Sums)
 
 const binanceUrl = "wss://stream.binance.com:9443/ws/btcusdt@depth20@1000ms"
@@ -48,10 +50,11 @@ func reader(conn *websocket.Conn) {
 		sum := Sum(&data)
 		log.Printf("Ask Orders: %v Bids Orders: %v\n", sum.SumAsks, sum.SumBids)
 
-		// writes struct Sums to channel
+		// writes struct Sums to channel of each connection
 		for _, ch := range Conns {
 			ch <- sum
 		}
+		fmt.Printf("len of map: %v\n", len(Conns))
 	}
 }
 

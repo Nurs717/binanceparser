@@ -1,5 +1,4 @@
 # binanceparser
 
-# run make file
-# or command 
+# run:
 # go run cmd/main.go

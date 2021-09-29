@@ -49,7 +49,10 @@ func Writer(conn *websocket.Conn) {
 		// marshalling data and sending to client
 		err := conn.WriteJSON(sums)
 		if err != nil {
+			// deletes than kills connection if can't marshall
+			delete(client.Conns, conn)
 			log.Printf("error occured when marshalling websocket %v\n", err)
+			conn.Close()
 		}
 	}
 }
