@@ -15,7 +15,7 @@ var upgrader = websocket.Upgrader{
 }
 
 // initialize channel to work with struct Sums
-var Ch = make(chan client.Sums)
+// var Ch = make(chan client.Sums)
 
 func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 	// upgrades http connection to websocket connection
@@ -23,8 +23,10 @@ func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, "%+v\n", err)
 	}
+	var Ch = make(chan client.Sums)
+	client.Conns[ws] = Ch
 	// writes data from channel to client websocket connection
-	go Writer(ws, Ch)
+	go Writer(ws)
 }
 
 func Upgrade(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error) {
@@ -37,12 +39,12 @@ func Upgrade(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error) {
 	return ws, nil
 }
 
-func Writer(conn *websocket.Conn, ch <-chan client.Sums) {
+func Writer(conn *websocket.Conn) {
 	// initializing Sums struct
 	var sums client.Sums
 	for {
 		// reading from channel to variable
-		sums = <-ch
+		sums = <-client.Conns[conn]
 
 		// marshalling data and sending to client
 		err := conn.WriteJSON(sums)

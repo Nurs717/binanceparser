@@ -19,18 +19,20 @@ type Sums struct {
 	SumBids float64
 }
 
+var Conns = make(map[*websocket.Conn]chan Sums)
+
 const binanceUrl = "wss://stream.binance.com:9443/ws/btcusdt@depth20@1000ms"
 
-func GetData(ch chan<- Sums) {
+func GetData() {
 	// sets connection with Binance websocket
 	ws, _, err := websocket.DefaultDialer.Dial(binanceUrl, nil)
 	if err != nil {
 		log.Fatal("dial:", err)
 	}
-	reader(ws, ch)
+	reader(ws)
 }
 
-func reader(conn *websocket.Conn, ch chan<- Sums) {
+func reader(conn *websocket.Conn) {
 	//initializing struct
 	var data Data
 	for {
@@ -47,7 +49,9 @@ func reader(conn *websocket.Conn, ch chan<- Sums) {
 		log.Printf("Ask Orders: %v Bids Orders: %v\n", sum.SumAsks, sum.SumBids)
 
 		// writes struct Sums to channel
-		ch <- sum
+		for _, ch := range Conns {
+			ch <- sum
+		}
 	}
 }
 

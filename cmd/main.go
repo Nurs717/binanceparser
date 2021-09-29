@@ -18,7 +18,7 @@ func main() {
 	srv := server.NewServer("8080", mux)
 
 	// gets asks and bids from binance api and writes to channel
-	go client.GetData(handler.Ch)
+	go client.GetData()
 
 	// runs server
 	fmt.Println("Starting at localhost:8080")
