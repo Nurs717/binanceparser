@@ -1,8 +1,8 @@
 package main
 
 import (
+	"binanceparser/internal/client"
 	"binanceparser/internal/handler"
-	"binanceparser/internal/model"
 	"binanceparser/internal/server"
 	"fmt"
 	"log"
@@ -12,10 +12,11 @@ import (
 func main() {
 	mux := http.NewServeMux()
 	handler.SetUpRoutes(mux)
+	srv := server.NewServer("8080", mux)
+
+	go client.GetData(handler.Ch)
 
 	fmt.Println("Starting at localhost:8080")
-	srv := server.NewServer("8081", mux)
-	model.GetData()
 	if err := srv.Run(); err != nil {
 		log.Fatalf("error occured while running API server: %v", err)
 	}
