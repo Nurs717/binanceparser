@@ -17,7 +17,8 @@ func main() {
 	//set server configs
 	srv := server.NewServer("8080", mux)
 
-	// gets asks and bids from binance api and writes to channel
+	// gets asks and bids from binance api
+	// and writes to all connection channels
 	go client.GetData()
 
 	// runs server

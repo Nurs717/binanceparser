@@ -54,7 +54,7 @@ func reader(conn *websocket.Conn) {
 		for _, ch := range Conns {
 			ch <- sum
 		}
-		fmt.Printf("len of map: %v\n", len(Conns))
+		fmt.Printf("number of connections: %v\n", len(Conns))
 	}
 }
 

@@ -14,9 +14,6 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-// initialize channel to work with struct Sums
-// var Ch = make(chan client.Sums)
-
 func WebSocketHandler(w http.ResponseWriter, r *http.Request) {
 	// upgrades http connection to websocket connection
 	ws, err := Upgrade(w, r)
@@ -53,6 +50,7 @@ func Writer(conn *websocket.Conn) {
 			delete(client.Conns, conn)
 			log.Printf("error occured when marshalling websocket %v\n", err)
 			conn.Close()
+			break
 		}
 	}
 }

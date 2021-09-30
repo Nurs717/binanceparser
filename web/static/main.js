@@ -10,8 +10,8 @@ websocket.onerror = function(error) {
 };
 
 websocket.onmessage = function(event) {
-    subscribers = JSON.parse(event.data);
-    // console.log(subscribers);
-    document.getElementById('asks').innerHTML = subscribers.SumAsks
-    document.getElementById('bids').innerHTML = subscribers.SumBids
+    orders = JSON.parse(event.data);
+    // console.log(orders);
+    document.getElementById('asks').innerHTML = orders.SumAsks
+    document.getElementById('bids').innerHTML = orders.SumBids
 };
