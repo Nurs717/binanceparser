@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+}
+
+.col {
+    flex-basis: 300px;
+    height: 100px;
+    margin: 5px;
+}
+
+.ask {
+    color: red;
+}
+
+.bid {
+    color: green;
+}
+
+h1 {
+    color: orange;
+}
+
+.total {
+    color: blue;
+}

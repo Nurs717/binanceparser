@@ -18,6 +18,8 @@ type Data struct {
 type Sums struct {
 	SumAsks float64
 	SumBids float64
+	Bids    [][]string
+	Asks    [][]string
 }
 
 // creates map of connection with channel
@@ -48,7 +50,7 @@ func reader(conn *websocket.Conn) {
 		// and writes results to Sums struct
 		// and return Sums struct
 		sum := Sum(&data)
-		log.Printf("Ask Orders: %v Bids Orders: %v\n", sum.SumAsks, sum.SumBids)
+		log.Printf("Asks Total Order: %v Bids Total Order: %v\n", sum.SumAsks, sum.SumBids)
 
 		// writes struct Sums to channel of each connection
 		for _, ch := range Conns {
@@ -73,5 +75,7 @@ func Sum(item *Data) Sums {
 		sum.SumAsks += ask
 		sum.SumBids += bid
 	}
+	sum.Asks = item.Asks[:15]
+	sum.Bids = item.Bids[:15]
 	return sum
 }
