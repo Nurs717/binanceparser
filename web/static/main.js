@@ -28,3 +28,7 @@ websocket.onmessage = function(event) {
     document.getElementById('asks').innerHTML = orders.SumAsks
     document.getElementById('bids').innerHTML = orders.SumBids
 };
+
+window.addEventListener("beforeunload", function (e) {
+    websocket.close();
+});

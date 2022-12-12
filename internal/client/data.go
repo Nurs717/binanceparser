@@ -8,13 +8,13 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-//struct for data comming from binance websocket
+// Data struct for data coming from binance websocket
 type Data struct {
 	Bids [][]string `json:"bids"`
 	Asks [][]string `json:"asks"`
 }
 
-//struct to calculate sum of asks and bids
+// Sums struct to calculate sum of asks and bids
 type Sums struct {
 	SumAsks float64
 	SumBids float64
@@ -22,7 +22,7 @@ type Sums struct {
 	Asks    [][]string
 }
 
-// creates map of connection with channel
+// Conns creates map of connection with channel
 var Conns = make(map[*websocket.Conn]chan Sums)
 
 const binanceUrl = "wss://stream.binance.com:9443/ws/btcusdt@depth20@1000ms"
@@ -40,7 +40,7 @@ func reader(conn *websocket.Conn) {
 	//initializing struct
 	var data Data
 	for {
-		//unmarshaling websocket connection
+		//unmarshalling websocket connection
 		err := conn.ReadJSON(&data)
 		if err != nil {
 			log.Printf("error occured when unmarshaling websocket %v\n", err)
